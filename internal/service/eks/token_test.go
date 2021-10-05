@@ -50,8 +50,9 @@ func errorContains(t *testing.T, err error, expectedErr string) {
 
 func assertSTSError(t *testing.T, err error) {
 	t.Helper()
-	if _, ok := err.(STSError); !ok { // nolint:errorlint
-		t.Errorf("Expected err %v to be an STSError but was not", err)
+	var stsErr *STSError
+	if !errors.As(err, &stsErr) {
+		t.Errorf("Expected err %[1]v to be an STSError but was a %[1]T", err)
 	}
 }
 
